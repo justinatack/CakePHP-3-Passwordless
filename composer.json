@@ -5,12 +5,17 @@
     "keywords": [
         "cakephp",
         "passwordless",
+        "authenticate",
         "authentication",
         "token",
         "login"
     ],
     "homepage": "https://github.com/justinatack/passwordless",
     "license": "MIT",
+    "support": {
+        "source":"https://github.com/justinatack/passwordless",
+        "issues":"https://github.com/justinatack/passwordless/issues"
+    },
     "authors": [
         {
             "name": "Justin Atack",
