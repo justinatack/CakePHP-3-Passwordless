@@ -1,0 +1,38 @@
+{
+    "name": "justinatack/passwordless",
+    "description": "Passwordless Authentication plugin for CakePHP",
+    "type": "cakephp-plugin",
+    "keywords": [
+        "cakephp",
+        "passwordless",
+        "authentication",
+        "token",
+        "login"
+    ],
+    "homepage": "https://github.com/justinatack/passwordless",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "Justin Atack",
+            "homepage": "http://www.justinatack.com",
+            "role": "Author"
+        }
+    ],
+    "require": {
+        "php": ">=5.4.16",
+        "cakephp/cakephp": "~3.0"
+    },
+    "require-dev": {
+        "phpunit/phpunit": "*"
+    },
+    "autoload": {
+        "psr-4": {
+            "JustinAtack\\Passwordless\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "JustinAtack\\Passwordless\\Test\\": "tests"
+        }
+    }
+}
