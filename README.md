@@ -39,7 +39,7 @@ $this->loadComponent('Auth', [
 
 ## Instructions
 
-Create a Users table with a ```email```, ```token``` and ```token_expiry``` fields. The following columns could be used as a starting point in a Users migration.
+Create a Users table with ```email```, ```token``` and ```token_expiry``` fields. The following columns could be used as a starting point in a Users migration.
 ```
 $table->addColumn('email', 'string', [
     'default' => null,
@@ -93,11 +93,11 @@ public function login($token = null)
 
 Create a login view with a single email form field and submit button. Now add a User and then submit the Login form with email address. This will generate a token and set the token_expiry. Using this code you can login with the following urls, both will work the same.
 ```
-http://www.example.com/users/login/{token_here}
-http://www.example.com/users/login?token={token_here}
+https://www.example.com/users/login/{token_here}
+https://www.example.com/users/login?token={token_here}
 ```
 
-At this point you should have a working login system with ```token``` and ```token_expiry``` being saved after each login email request. This plugin does not handle the token email to send to the User after login request. This part is for you to decide how to handle, perhaps you might want to Queue the request or email it straight away or even SMS it. Heres a head start. The following code is placed in your src/Controller/UsersController.php file. It listens to the Auth.AfterIdentify event. You can trigger your own method call to do as you please e.g. send the token email with login link to your user. I have simply logged the event to my debug log.
+At this point you should have a working login system with ```token``` and ```token_expiry``` being saved after each login email request. This plugin does not handle the token email to send to the User after login request. This part is for you to decide how to handle, perhaps you might want to Queue the request or email it straight away or even SMS it. Heres a head start. The following code is placed in your src/Controller/UsersController.php file. It listens to the Auth.afterIdentify event. You can trigger your own method call to do as you please e.g. send the token email with login link to your user. I have simply logged the event to my debug log.
 
 ```
 use Cake\Log\Log;
@@ -116,6 +116,8 @@ public function initialize()
 public function afterIdentify(Event $event, array $user)
 {
     Log::write('debug', $user);
+    // Email user link with embedded token.
+    // See example links above to generate correct URLs
 }
 ```
 
@@ -128,3 +130,6 @@ Example debug log output
     [token] => 53af7103f12c1e9ff752
 )
 ```
+
+## Warning
+All token links should ONLY be used over a secure SSL connection.
