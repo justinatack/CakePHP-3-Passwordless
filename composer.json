@@ -32,12 +32,12 @@
     },
     "autoload": {
         "psr-4": {
-            "JustinAtack\\Passwordless\\": "src"
+            "JustinAtack\\Authenticate\\": "src"
         }
     },
     "autoload-dev": {
         "psr-4": {
-            "JustinAtack\\Passwordless\\Test\\": "tests"
+            "JustinAtack\\Authenticate\\Test\\": "tests"
         }
     }
 }
