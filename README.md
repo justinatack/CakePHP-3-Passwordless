@@ -7,13 +7,13 @@ You can install this plugin into your CakePHP application using [composer](http:
 The recommended way to install this composer package is:
 
 ```
-composer require justinatack/passwordless:dev-master
+composer require justinatack/authenticate:dev-master
 ```
 
 In your config/bootstrap.php file add the following
 
 ```
-Plugin::load('JustinAtack/Passwordless');
+Plugin::load('JustinAtack/Authenticate');
 ```
 
 In your src/Controller/AppController.php file add the following
@@ -21,7 +21,7 @@ In your src/Controller/AppController.php file add the following
 ```
 $this->loadComponent('Auth', [
     'authenticate' => [
-        'JustinAtack/Passwordless.Passwordless' => [
+        'JustinAtack/Authenticate.Passwordless' => [
             'fields' => [
                 'username' => 'email',
                 'token' => 'token',
