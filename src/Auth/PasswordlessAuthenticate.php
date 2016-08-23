@@ -1,6 +1,6 @@
 <?php
 
-namespace JustinAtack\Passwordless\Auth;
+namespace JustinAtack\Authenticate\Auth;
 
 use Cake\Auth\BaseAuthenticate;
 use Cake\Network\Request;
