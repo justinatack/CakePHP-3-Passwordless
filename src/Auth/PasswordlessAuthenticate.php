@@ -28,22 +28,22 @@ class PasswordlessAuthenticate extends BaseAuthenticate
      *
      * @var array
      */
-    protected $_defaultConfig = [
-        'fields' => [
-            'username' => 'email',
-            'token' => 'token', // varchar(255)
-            'token_expiry' => 'token_expiry' // datetime
-        ],
-        'token' => [
-            'query' => 'token',
-            'length' => 32, // bytes
-            'expires' => '+10 mins'
-        ],
-        'userModel' => 'Users',
-        'scope' => [],
-        'finder' => 'all',
-        'contain' => null
-    ];
+    // protected $_defaultConfig = [
+    //     'fields' => [
+    //         'username' => 'email',
+    //         'token' => 'token', // varchar(255)
+    //         'token_expiry' => 'token_expiry' // datetime
+    //     ],
+    //     'token' => [
+    //         'query' => 'token',
+    //         'length' => 32, // bytes
+    //         'expires' => '+10 mins'
+    //     ],
+    //     'userModel' => 'Users',
+    //     'scope' => [],
+    //     'finder' => 'all',
+    //     'contain' => null
+    // ];
 
     /**
      * Find a user record using the username provided.
