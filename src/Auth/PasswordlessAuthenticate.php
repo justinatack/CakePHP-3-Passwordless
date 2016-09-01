@@ -8,6 +8,7 @@ use Cake\Network\Response;
 use Cake\ORM\TableRegistry;
 use Cake\Utility\Security;
 use Cake\Chronos\Chronos;
+use Cake\Utility\Text;
 
 class PasswordlessAuthenticate extends BaseAuthenticate
 {
@@ -33,6 +34,7 @@ class PasswordlessAuthenticate extends BaseAuthenticate
     //         'username' => 'email',
     //         'token' => 'token', // varchar(255)
     //         'token_expiry' => 'token_expiry' // datetime
+    //         'token_password' => false // set to false if not in use
     //     ],
     //     'token' => [
     //         'query' => 'token',
@@ -61,7 +63,10 @@ class PasswordlessAuthenticate extends BaseAuthenticate
 
         $result = $result->toArray();
 
-        // Set token and attach to return array
+        /**
+         * Set $token and attach to return array
+         * @var array
+         */
         $token = $this->_setToken($username);
         $result[$this->_config['fields']['token']] = $token;
 
@@ -86,6 +91,7 @@ class PasswordlessAuthenticate extends BaseAuthenticate
         if (!empty($config['scope'])) {
             $options['conditions'] = array_merge($options['conditions'], $config['scope']);
         }
+
         if (!empty($config['contain'])) {
             $options['contain'] = $config['contain'];
         }
@@ -106,7 +112,9 @@ class PasswordlessAuthenticate extends BaseAuthenticate
     }
 
     /**
-     * Generate and save User token
+     * _setToken method
+     * Generate uuid token and token_expiry datetime
+     * Save to database
      *
      * @return string token value
      */
@@ -114,14 +122,46 @@ class PasswordlessAuthenticate extends BaseAuthenticate
     {
         $config = $this->_config;
         $table = TableRegistry::get($config['userModel']);
+
         $data = [
-            $config['fields']['token'] => bin2hex(Security::randomBytes($config['token']['length'])),
+            // $config['fields']['token'] => bin2hex(Security::randomBytes($config['token']['length'])),
+            $config['fields']['token'] => Text::uuid(),
             $config['fields']['token_expiry'] => Chronos::parse($config['token']['expires'])
         ];
-        $conditions = [$config['fields']['username'] => $username];
+
+        $conditions = [
+            $config['fields']['username'] => $username
+        ];
+
         $table->updateAll($data, $conditions);
 
         return $data[$config['fields']['token']];
+    }
+
+    /**
+     * _setTokenPassword method
+     * Generate uuid token_password
+     * Save to database
+     *
+     * @param string $username users username/email
+     */
+    protected function _setTokenPassword($username)
+    {
+        if (!$this->_config['fields']['token_password']) {
+            return false;
+        }
+
+        $config = $this->_config;
+        $table = TableRegistry::get($config['userModel']);
+
+        $data = [
+            $config['fields']['token_password'] => Text::uuid()
+        ];
+
+        $conditions = [$config['fields']['username'] => $username];
+        $table->updateAll($data, $conditions);
+
+        return $data[$config['fields']['token_password']];
     }
 
     /**
@@ -138,7 +178,18 @@ class PasswordlessAuthenticate extends BaseAuthenticate
              return false;
          }
 
-         return $result->toArray();
+         $result = $result->toArray();
+
+         /**
+          * Set $tokenPassword and attach to return array
+          * @var array
+          */
+         $tokenPassword = $this->_setTokenPassword($result[$this->_config['fields']['username']]);
+         if ($tokenPassword) {
+             $result[$this->_config['fields']['token_password']] = $tokenPassword;
+         }
+
+         return $result;
      }
 
     /**
@@ -162,6 +213,7 @@ class PasswordlessAuthenticate extends BaseAuthenticate
         if (!empty($config['scope'])) {
             $options['conditions'] = array_merge($options['conditions'], $config['scope']);
         }
+
         if (!empty($config['contain'])) {
             $options['contain'] = $config['contain'];
         }
