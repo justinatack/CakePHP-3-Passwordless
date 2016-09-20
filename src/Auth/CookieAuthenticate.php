@@ -1,5 +1,4 @@
 <?php
-
 namespace JustinAtack\Authenticate\Auth;
 
 use Cake\Auth\BaseAuthenticate;
@@ -27,20 +26,20 @@ class CookieAuthenticate extends BaseAuthenticate
      *
      * @var array
      */
-    // protected $_defaultConfig = [
-    //     'fields' => [
-    //         'username' => 'username',
-    //         'password' => 'password'
-    //     ],
-    //     'cookie' => [
-    //         'name' => 'RememberMe',
-    //     ],
-    //     'userModel' => 'Users',
-    //     'scope' => [],
-    //     'finder' => 'all',
-    //     'contain' => null,
-    //     'passwordHasher' => 'Default'
-    // ];
+    protected $_defaultConfig = [
+        'fields' => [
+            'username' => 'username',
+            'password' => 'password'
+        ],
+        'cookie' => [
+            'name' => 'RememberMe'
+        ],
+        'userModel' => 'Users',
+        'scope' => [],
+        'finder' => 'all',
+        'contain' => null,
+        'passwordHasher' => 'Default'
+    ];
 
     protected function checkCookie()
     {
