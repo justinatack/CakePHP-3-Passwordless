@@ -1,5 +1,4 @@
 <?php
-
 namespace JustinAtack\Authenticate\Auth;
 
 use Cake\Auth\BaseAuthenticate;
@@ -29,23 +28,25 @@ class PasswordlessAuthenticate extends BaseAuthenticate
      *
      * @var array
      */
-    // protected $_defaultConfig = [
-    //     'fields' => [
-    //         'username' => 'email',
-    //         'token' => 'token', // varchar(255)
-    //         'token_expiry' => 'token_expiry' // datetime
-    //         'token_password' => false // set to false if not in use
-    //     ],
-    //     'token' => [
-    //         'query' => 'token',
-    //         'length' => 32, // bytes
-    //         'expires' => '+10 mins'
-    //     ],
-    //     'userModel' => 'Users',
-    //     'scope' => [],
-    //     'finder' => 'all',
-    //     'contain' => null
-    // ];
+    protected $_defaultConfig = [
+        'fields' => [
+            'username' => 'email',
+            'password' => 'password',
+            'token' => 'token', // varchar(255)
+            'token_expiry' => 'token_expiry', // datetime
+            'token_password' => false // set to false if not in use
+        ],
+        'token' => [
+            'query' => 'token',
+            'length' => 32, // bytes
+            'expires' => '+10 mins'
+        ],
+        'userModel' => 'Users',
+        'scope' => [],
+        'finder' => 'all',
+        'contain' => null,
+        'passwordHasher' => 'Default'
+    ];
 
     /**
      * Find a user record using the username provided.
@@ -242,7 +243,7 @@ class PasswordlessAuthenticate extends BaseAuthenticate
         }
 
         // Check form post data users/login
-        if (!empty($request->data($this->_config['fields']['username']))) {
+        if (!empty($request->data($this->_config['fields']['username'])) and empty($request->data($this->_config['fields']['password']))) {
             return $this->_findUser($request->data($this->_config['fields']['username']));
         }
 
